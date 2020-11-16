@@ -22,6 +22,14 @@
       right: 0;
     }
 
+    video {
+      width: 200px !important;
+    }
+
+    img {
+      width: 200px !important;
+    }
+
   </style>
 </head>
 
@@ -39,7 +47,7 @@
 
 
   <div class="footer">
-    <input id="photo" type="file" accept="video/mp4, image/*" name="photo"/>
+    <input id="photo" type="file" accept="video/mp4, image/png, image/jpeg, image/gif, image/jpg" name="photo"/>
     <div class="editor" style="width: 100%; height: 70%;">
       <input id="input" type="text" style="width: 80%; height: 90%;"/> 
       <button onclick="sendMessage()" style="height: 90%;">发送</button>
@@ -91,19 +99,22 @@
       var xhr = new XMLHttpRequest;
       xhr.open("post", "/upload", true);
       console.log(file.type);
+      var fileType = file.type;
       xhr.onload = function() {
         console.log(xhr.response);
-        if (isVideo(file.type)) {
+        if (isVideo(fileType)) {
           sendVideo(xhr.response);
         }
-        if (isImage(file.type)) {
+        if (isImage(fileType)) {
           sendImage(xhr.response);
         }
+        input.value = '';
       }
       xhr.onerror = function(e) {
         console.error(e);
       }
       xhr.send(formData);
+      
     }
   }
 
